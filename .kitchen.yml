@@ -1,0 +1,24 @@
+---
+driver:
+  name: docker
+  socket: <%= ENV['DOCKER_HOST'] %>
+  provision_command: curl -L https://www.getchef.com/chef/install.sh | bash
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: ubuntu
+
+suites:
+  - name: default
+    run_list:
+      - recipe[apache2]
+      - recipe[ruby_build]
+      - recipe[rbenv::system]
+      - recipe[rbenv-passenger::default]
+    attributes:
+      rbenv:
+        rubies:
+        - '2.1.2'
+        global: '2.1.2'
